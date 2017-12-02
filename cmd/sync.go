@@ -263,6 +263,10 @@ func (cmd *cmdSync) SyncCommand(reader *bufio.Reader, target, passwd string) {
 						log.Panicf("select command len(args) = %d", len(args))
 					}
 					s := string(args[0])
+					if s != "0" {
+						cmd.nbypass.Incr()
+						continue
+					}
 					n, err := parseInt(s, MinDB, MaxDB)
 					if err != nil {
 						log.PanicErrorf(err, "parse db = %s failed", s)
